@@ -697,7 +697,7 @@ public final class PipeEntity extends BlockEntity implements ExtendedScreenHandl
 
         if (cooldown <= 0) {
             addToQueue();
-            cooldown = isDynamo ? ticksPerOperation / 3 : ticksPerOperation / 2;
+            cooldown = isDynamo ? 0 : ticksPerOperation / 2;
         }
 
 
