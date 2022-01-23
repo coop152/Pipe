@@ -168,6 +168,7 @@ public final class PipeEntity extends BlockEntity implements ExtendedScreenHandl
      * takes care of that.
      */
     private boolean speedSet = false;
+    private boolean isDynamo = false;
 
 
     /**
@@ -677,7 +678,16 @@ public final class PipeEntity extends BlockEntity implements ExtendedScreenHandl
 
         if (!speedSet && world != null) {
             speedSet = true;
-            ticksPerOperation = world.getBlockState(pos).getBlock() == Pipe.FAST_PIPE ? 8 : 20;
+            if (world.getBlockState(pos).getBlock() == Pipe.FAST_PIPE) {
+                ticksPerOperation = 8;
+            }
+            else if (world.getBlockState(pos).getBlock() == Pipe.DYNAMO_PIPE) {
+                ticksPerOperation = 6;
+                isDynamo = true;
+            }
+            else {
+                ticksPerOperation = 20;
+            }
         }
 
         if (cooldown > 0)
@@ -687,7 +697,7 @@ public final class PipeEntity extends BlockEntity implements ExtendedScreenHandl
 
         if (cooldown <= 0) {
             addToQueue();
-            cooldown = ticksPerOperation / 2;
+            cooldown = isDynamo ? ticksPerOperation / 3 : ticksPerOperation / 2;
         }
 
 
